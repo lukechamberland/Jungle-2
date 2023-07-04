@@ -1,8 +1,18 @@
 Rails.application.routes.draw do
   
+  get 'sessions/new'
+  get 'sessions/create'
+  get 'sessions/destroy'
+  get 'users/new'
+  get 'users/create'
   delete '/admin/categories/:id', to: 'admin/categories#destroy', as: 'admin_category'
   get '/about', to: 'about#index'
   get 'about/index'
+  get '/register', to: 'users#new'
+  post '/register', to: 'users#create'
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  get '/logout', to: 'sessions#destroy', as: 'logout'
   root to: 'products#index'
 
   resources :products, only: [:index, :show]
