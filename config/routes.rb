@@ -1,13 +1,18 @@
 Rails.application.routes.draw do
-
+  
+  delete '/admin/categories/:id', to: 'admin/categories#destroy', as: 'admin_category'
+  get '/about', to: 'about#index'
+  get 'about/index'
   root to: 'products#index'
 
   resources :products, only: [:index, :show]
-  resources :categories, only: [:show]
+  resources :categories, only: [:index, :new, :create, :edit]
 
   resource :cart, only: [:show] do
-    post   :add_item
-    post   :remove_item
+    member do
+      post :add_item
+      post :remove_item
+    end
   end
 
   resources :orders, only: [:create, :show]
@@ -15,6 +20,7 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'dashboard#show'
     resources :products, except: [:edit, :update, :show]
+    resources :categories, only: [:index, :new, :create]
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
